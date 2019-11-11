@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>文章列表</title>
+	</head>
+	<script src="js/jquery-1.12.4.js"></script>
+	<body>
+		<button id='addBtn' style='width: 80px;height: 30px;margin: 10px' >增加文章</button>
+		<table id="tableBox" border='1'  width="800">
+		</table>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			getList();
+			function getList(){
+					$.ajax({
+					type: "get",
+					url:'articleList.php',
+					data:{
+						action:'getList'
+					},
+					dataType:'JSON',
+					success:(data)=>{
+						let tableInfo = data.data;
+						$('#tableBox').html('');
+						$('#tableBox').html('<tr><th>id</td><th>标题</td><th>作者</td><th>描述</td><th>内容</td><th>时间</td><th>操作</td></tr>');
+						tableInfo.forEach((item,index)=>{
+							let info = `<tr><td>${item.id}</td><td>${item.title}</td><td>${item.auther}</td><td>${item.description}</td><td>${item.content}</td><td>${item.dateline}</td><td><button id='checkBtn'  myIndex='${index}'>查看</button>  <button  id='delete' myIndex='${index}'>删除</button>  <button id="fixBtn"  myIndex='${index}'>修改</button> </td></tr>`
+							$('#tableBox').append(info);
+
+						})
+					},
+					error:(e)=>{
+						console.log(e);
+					}
+				})
+			}
+
+			//删除按钮
+			$(document).on("click","#delete",function () {
+       			let index = Number($(this).attr('myIndex'))+1;
+       			let id = $(`tr:eq(${index})`)[0].children[0].innerText
+       			deleteData(id);
+    		});
+    		//增加按钮
+    		$(document).on('click','#addBtn',function(){
+    			window.location.href = 'addArticle.html';
+    		});
+    		//查看按钮
+    		$(document).on('click','#checkBtn',function(){
+    			let index = Number($(this).attr('myIndex'))+1;
+       			let id = $(`tr:eq(${index})`)[0].children[0].innerText
+    			window.location.href = `checkArticle.html?id=${id}`;
+    		});
+    		//修改按钮
+    		$(document).on('click','#fixBtn',function(){
+    			let index = Number($(this).attr('myIndex'))+1;
+       			let id = $(`tr:eq(${index})`)[0].children[0].innerText
+    			window.location.href = `fixArticle.html?id=${id}`;
+    		});
+
+
+			function deleteData(itemId){
+				$.ajax({
+					type:'post',
+					url:'delete.php',
+					data:{
+						action:'deleteItem',
+						id:itemId
+					},
+					dataType:'JSON',
+					success:(data)=>{
+						getList();
+						alert('删除成功');
+					},
+					error:(e)=>{
+						alert('删除失败');
+					}
+				})
+			}
+	
+		})
+	</script>
+</html>

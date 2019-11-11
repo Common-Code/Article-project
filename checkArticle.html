@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>文章查看</title>
+	</head>
+	<script src="js/jquery-1.12.4.js"></script>
+	<style type="text/css">
+		.box{
+			text-align: center;
+		}
+	</style>
+	<body>
+		<div class='box'></div>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			function getUrlParam(name) {
+		        // 用该属性获取页面 URL 地址从问号 (?) 开始的 URL（查询部分）
+		        var url = window.location.search;
+		        // 正则筛选地址栏
+		        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		        // 匹配目标参数
+		        var result = url.substr(1).match(reg);
+		        //返回参数值
+		        return result ? decodeURIComponent(result[2]) : null;
+    		}
+    		let articleId = getUrlParam("id");
+    		
+
+			$.ajax({
+				type:'post',
+				url:'check.php',
+				data:{
+					action:'check',
+					id:articleId
+				},
+				dataType:'JSON',
+				success:(data)=>{
+					let articleData = data.data[0];
+					let info = `<h2>标题：${articleData.title}</h1><h2>作者：${articleData.auther} </h2><h3>时间：${articleData.dateline}	</h3><h4>描述：${articleData.description}</h4><p>内容：${articleData.content}</p>`
+					$('.box').append(info);
+				},
+				error:(e)=>{
+					console.log(e);
+				}
+			})
+		})
+	</script>
+	
+</html>
