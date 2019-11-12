@@ -1,7 +1,4 @@
 <?php
-
-
-
 $action = $_POST['action'];
 if($action == 'check'){
 	//连接数据库
@@ -10,8 +7,8 @@ if($action == 'check'){
 	// //获取前端的数据
 	$itemID = $_POST['id'];
 	
-	
-	
+	 
+	 
 	// 把数据写入数据库
 	$checkSql = "SELECT * FROM article WHERE id=$itemID";
 

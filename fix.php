@@ -12,8 +12,8 @@ if($action == 'fixInfo'){
 	$description = $_POST['description'];
 	$content = $_POST['content'];
 	
-	
-	
+	  
+	 
 	
 	$update = "UPDATE article SET title='$title',auther='$authod',description='$description',content='$content' WHERE id=$itemID ";
 

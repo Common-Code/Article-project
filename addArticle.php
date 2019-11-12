@@ -3,7 +3,7 @@
 
 
 $action = $_POST['action'];
-if($action == 'add'){
+if($action == 'add'){  
 	//连接数据库
 	require_once('connect.php');
 
