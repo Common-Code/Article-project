@@ -25,11 +25,12 @@
 						let tableInfo = data.data;
 						$('#tableBox').html('');
 						$('#tableBox').html('<tr><th>id</td><th>标题</td><th>作者</td><th>描述</td><th>内容</td><th>时间</td><th>操作</td></tr>');
-						tableInfo.forEach((item,index)=>{
+						if(tableInfo !== ''){
+							tableInfo.forEach((item,index)=>{
 							let info = `<tr><td>${item.id}</td><td>${item.title}</td><td>${item.auther}</td><td>${item.description}</td><td>${item.content}</td><td>${item.dateline}</td><td><button id='checkBtn'  myIndex='${index}'>查看</button>  <button  id='delete' myIndex='${index}'>删除</button>  <button id="fixBtn"  myIndex='${index}'>修改</button> </td></tr>`
 							$('#tableBox').append(info);
-
-						})
+							})
+						}
 					},
 					error:(e)=>{
 						console.log(e);
